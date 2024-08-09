@@ -21,7 +21,6 @@ class MonthViewModel : ViewModel() {
             .build()
             .create(TaskService::class.java)
         repo = TaskRepo(taskSource, userId)
-        viewModelScope.launch { repo.fetchAllTasks() }
     }
 
     fun setSelectedDay(year: Int, month: Int, day: Int) {

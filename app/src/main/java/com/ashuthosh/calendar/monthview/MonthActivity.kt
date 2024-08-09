@@ -1,6 +1,8 @@
 package com.ashuthosh.calendar.monthview
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +19,7 @@ import com.ashuthosh.calendar.getMonthText
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.color.DynamicColors
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.launch
 
 class MonthActivity : AppCompatActivity() {
@@ -45,13 +48,11 @@ class MonthActivity : AppCompatActivity() {
 
         val calendarView = findViewById<CalendarView>(R.id.calender_view)
         calendarView.setDaySelectedListener {
-            if (it != -1) {
-                viewModel.setSelectedDay(year, month, it)
-                calendarView.setSelectedDay(it)
-            }
+            if (it != -1) viewModel.setSelectedDay(year, month, it)
         }
         findDaysAndStartDay(year, month).also {
-            calendarView.setMonthData(it.first, if (it.second + 1 == 8) 1 else it.second + 1, 0)
+            viewModel.setSelectedDay(year, month, 1)
+            calendarView.setMonthData(it.first, if (it.second + 1 == 8) 1 else it.second + 1, 1)
         }
         setUpTaskView()
     }
@@ -75,14 +76,30 @@ class MonthActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.task_input_dialog)
         dialog.show()
 
+        val taskNameLayout = dialog.findViewById<TextInputLayout>(R.id.task_name_layout)
         val taskNameInput = dialog.findViewById<TextInputEditText>(R.id.task_name)
         val taskDescInput = dialog.findViewById<TextInputEditText>(R.id.task_desc)
+
+        val errorText = getString(R.string.task_name_required)
+        taskNameInput?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                taskNameLayout?.error = if (s.isNullOrBlank()) errorText else null
+            }
+        })
 
         dialog.findViewById<View>(R.id.submit_task_btn)?.setOnClickListener {
             val taskName = taskNameInput?.text?.toString() ?: ""
             val taskDesc = taskDescInput?.text?.toString() ?: ""
-            viewModel.addTask(taskName, taskDesc)
-            dialog.dismiss()
+            if (taskName.isNotBlank()) {
+                viewModel.addTask(taskName, taskDesc)
+                dialog.dismiss()
+            }
         }
     }
 

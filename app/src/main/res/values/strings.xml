@@ -7,6 +7,7 @@
 
     <string name="add_task_name">Enter task name</string>
     <string name="add_task_desc">Enter task description</string>
+    <string name="task_name_required">Task name is required</string>
 
     <string name="month_view_title">%s, %s</string>
 

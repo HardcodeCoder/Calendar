@@ -145,6 +145,7 @@ class CalendarView : View {
                 val d = sqrt(dx.pow(2) + dy.pow(2)).toInt()
                 if (d < touchSlope) {
                     val day = findDayFromCoordinates(event.x, event.y)
+                    setSelectedDay(day)
                     onDaySelected?.let { it(day) }
                 }
                 return true
