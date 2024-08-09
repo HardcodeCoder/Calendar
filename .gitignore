@@ -1,0 +1,13 @@
+# ignored files
+.gradle/
+.idea/*
+.kotlin/
+app/build/
+app/release/
+app/debug/
+app/app.iml
+local.properties
+
+# except
+!.idea/vcs.xml
+!.idea/codeStyles/

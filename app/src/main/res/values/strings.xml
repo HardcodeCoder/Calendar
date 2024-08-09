@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Calendar</string>
+
+    <string name="select_year_month_title">Enter year and month</string>
+    <string name="done">Done</string>
+    <string name="add_task">Add task</string>
+
+    <string name="add_task_name">Enter task name</string>
+    <string name="add_task_desc">Enter task description</string>
+
+    <string name="month_view_title">%s, %s</string>
+
+    <!-- Content Description -->
+    <string name="delete_task_btn_description">Delete selected task</string>
+    <string name="hint_input_year">Year</string>
+    <string name="error_input_year">Invalid Year</string>
+    <string name="hint_input_month">Month</string>
+    <string name="error_input_month">Invalid Month</string>
+</resources>
