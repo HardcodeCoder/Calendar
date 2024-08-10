@@ -6,10 +6,12 @@ import java.time.YearMonth
 
 fun findDaysAndStartDay(year: Int, month: Int): Pair<Int, Int> {
     val yearMonth = YearMonth.of(year, month)
-    val daysInMonth = yearMonth.lengthOfMonth()
     val firstDayOfMonth = LocalDate.of(year, month, 1)
-    val startDay = firstDayOfMonth.dayOfWeek.value
-    return Pair(daysInMonth, startDay)
+    return Pair(yearMonth.lengthOfMonth(), firstDayOfMonth.dayOfWeek.value)
 }
 
 fun getMonthText(month: Int) = Month.of(month).name
+
+fun isValidYear(year: Int) = year > 0
+
+fun isValidMonth(month: Int) = month in 1..12

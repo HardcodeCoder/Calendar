@@ -40,8 +40,9 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                if (isYearValid()) yearLayout.error = null
-                else yearLayout.error = yearErrorText
+                yearLayout.error =
+                    if (isValidYear(yearInput.text?.toString()?.toIntOrNull() ?: 0)) null
+                    else yearErrorText
             }
         })
         monthInput.addTextChangedListener(object : TextWatcher {
@@ -56,13 +57,16 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                if (isMonthValid()) monthLayout.error = null
-                else monthLayout.error = monthErrorText
+                monthLayout.error =
+                    if (isValidMonth(s?.toString()?.toIntOrNull() ?: 0)) null
+                    else monthErrorText
             }
         })
 
         findViewById<View>(R.id.done_btn).setOnClickListener {
-            if (isMonthValid() && isYearValid()) launchMonthView()
+            if (isValidMonth(monthInput.text?.toString()?.toIntOrNull() ?: 0) &&
+                isValidYear(yearInput.text?.toString()?.toIntOrNull() ?: 0)
+            ) launchMonthView()
         }
     }
 
@@ -71,15 +75,5 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(MonthActivity.KEY_YEAR, yearInput.text.toString().toInt())
         intent.putExtra(MonthActivity.KEY_MONTH, monthInput.text.toString().toInt())
         startActivity(intent)
-    }
-
-    private fun isMonthValid(): Boolean {
-        val month = monthInput.text?.toString()?.toIntOrNull() ?: 0
-        return month in 1..12
-    }
-
-    private fun isYearValid(): Boolean {
-        val year = yearInput.text?.toString()?.toIntOrNull() ?: 0
-        return year > 0
     }
 }
